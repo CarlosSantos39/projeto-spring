@@ -2,7 +2,6 @@ package com.carloscursomvc.domain;
 
 import java.io.Serializable;
 
-
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
@@ -10,10 +9,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class ItemPedido implements Serializable {
- private static final long serialVersionUID = 1L;
-    
-    @JsonIgnore
-    @EmbeddedId
+	private static final long serialVersionUID = 1L;
+
+	@JsonIgnore
+	@EmbeddedId
 	private ItemPedidoPK id = new ItemPedidoPK();
 
 	private Double desconto;
@@ -32,12 +31,16 @@ public class ItemPedido implements Serializable {
 		this.quantidade = quantidade;
 		this.preco = preco;
 	}
-    @JsonIgnore
+
+	public double getSubTotal() {
+		return (preco - desconto) * quantidade;
+	}
+
+	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
-    
-    
+
 	public Produto getProduto() {
 		return id.getProduto();
 	}
@@ -97,6 +100,20 @@ public class ItemPedido implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(getProduto().getNome());
+		builder.append(", Qte");
+		builder.append(getQuantidade());
+		builder.append(", Preço unitario ");
+		builder.append(getPreco());
+		builder.append(",Subtotal:");
+		builder.append(getSubTotal());
+		builder.append("\n");
+		return builder.toString();
 	}
 
 }
