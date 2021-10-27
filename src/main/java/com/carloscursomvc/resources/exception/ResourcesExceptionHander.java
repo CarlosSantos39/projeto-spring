@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.carloscursomvc.services.exceptions.DataInterityException;
 import com.carloscursomvc.services.exceptions.ObjectNotFoundException;
 
 @ControllerAdvice
@@ -19,4 +20,10 @@ public class ResourcesExceptionHander {
 
 	}
 
+	@ExceptionHandler(DataInterityException.class)
+	public ResponseEntity<StandarError> dataIntegrity(DataInterityException e, HttpServletRequest request) {
+		StandarError err = new StandarError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+
+	}
 }
