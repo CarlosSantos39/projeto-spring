@@ -18,6 +18,7 @@ import com.carloscursomvc.domain.enums.TipoCliente;
 import com.carloscursomvc.dto.ClienteDTO;
 import com.carloscursomvc.dto.ClienteNewDTO;
 import com.carloscursomvc.repositories.ClienteRepository;
+import com.carloscursomvc.repositories.EnderecoRepository;
 import com.carloscursomvc.services.exceptions.DataInterityException;
 import com.carloscursomvc.services.exceptions.ObjectNotFoundException;
 
@@ -27,6 +28,9 @@ public class ClienteService {
 	
 	@Autowired
 	private ClienteRepository repo;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 	
 	
 	public Cliente find(Integer id) {
@@ -39,6 +43,8 @@ public class ClienteService {
 	@Transactional
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
+		obj = repo.save(obj);
+		enderecoRepository.saveAll(obj.getEnderecos());
 		return obj;
 	}
 	
@@ -88,7 +94,6 @@ public class ClienteService {
 		}
 		return cli;
 	}
-	
 	private void updateData(Cliente newObj, Cliente obj) {
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());
