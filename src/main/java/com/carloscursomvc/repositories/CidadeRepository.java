@@ -8,6 +8,8 @@ import com.carloscursomvc.domain.Cidade;
 @Repository
 public interface CidadeRepository extends JpaRepository<Cidade, Integer> {
 
-	
+  
+
+
 
 }
