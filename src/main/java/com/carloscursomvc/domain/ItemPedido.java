@@ -30,6 +30,7 @@ public class ItemPedido implements Serializable {
 		this.desconto = desconto;
 		this.quantidade = quantidade;
 		this.preco = preco;
+
 	}
 
 	public double getSubTotal() {
